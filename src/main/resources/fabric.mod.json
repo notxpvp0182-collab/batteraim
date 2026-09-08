@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "better-aim",
+  "version": "${version}",
+  "name": "Better AIM",
+  "description": "Advanced crosshair, highlight, hitbox, and target HUD customization for PvP.",
+  "authors": [
+    "Ahmad"
+  ],
+  "contact": {
+    "issues": "https://github.com/ahmad/better-aim/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.betteraim.BetterAimClient"
+    ],
+    "modmenu": [
+      "com.betteraim.compat.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "better-aim.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.11",
+    "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "update_checker": false
+    }
+  }
+}
