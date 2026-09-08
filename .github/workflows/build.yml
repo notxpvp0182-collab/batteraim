@@ -28,10 +28,10 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.14'
+          gradle-version: '9.2'
 
       - name: Generate Gradle wrapper JAR
-        run: gradle wrapper --gradle-version 8.14
+        run: gradle wrapper --gradle-version 9.2
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
