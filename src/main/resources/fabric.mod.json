@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "betteraim",
+  "version": "${version}",
+  "name": "Better Aim",
+  "description": "Enhanced aiming assistance and targeting system for Minecraft",
+  "authors": [
+    "notxpvp0182-collab"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/betteraim/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.betteraim.BetterAimMod"
+    ],
+    "client": [
+      "com.betteraim.BetterAimClient"
+    ],
+    "modmenu": [
+      "com.betteraim.compat.ModMenuCompat"
+    ]
+  },
+  "mixins": [
+    "betteraim.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.x",
+    "java": ">=21"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
