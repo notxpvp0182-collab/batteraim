@@ -15,29 +15,24 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Client-side mod initialiser for Better AIM.
- *
- * Registers:
- *  - Configuration loading
- *  - Keybindings (M = open config; others unbound by default)
- *  - Tick event: keybind handling + target detection + hit feedback timing
- *  - HUD render: custom crosshair + target HUD
- *  - World render: entity highlights + hitbox visualization
- */
 @Environment(EnvType.CLIENT)
 public class BetterAimClient implements ClientModInitializer {
 
     public static final String MOD_ID = "better-aim";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+    // ── Custom keybind category ────────────────────────────────────────────
+    private static final KeyBinding.Category BETTER_AIM_CATEGORY =
+            KeyBinding.Category.register(Identifier.of(MOD_ID, "category"));
 
     // ── Keybindings ────────────────────────────────────────────────────────
     public static KeyBinding openConfigKey;
@@ -46,49 +41,40 @@ public class BetterAimClient implements ClientModInitializer {
     public static KeyBinding toggleHighlightKey;
     public static KeyBinding toggleHitboxKey;
 
-    private static final String KEY_CATEGORY = "category.better-aim";
-
     @Override
     public void onInitializeClient() {
-        LOGGER.info("[BetterAIM] Initialising …");
+        LOGGER.info("[BetterAIM] Initialising ...");
 
-        // ── 1. Load config ─────────────────────────────────────────────────
         ConfigManager.load();
 
-        // ── 2. Register keybindings ────────────────────────────────────────
+        // ── Keybindings ────────────────────────────────────────────────────
         openConfigKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.better-aim.open_config",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_M,
-                KEY_CATEGORY));
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_M,
+                BETTER_AIM_CATEGORY));
 
         toggleCrosshairKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.better-aim.toggle_crosshair",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN,
-                KEY_CATEGORY));
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN,
+                BETTER_AIM_CATEGORY));
 
         toggleTargetHudKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.better-aim.toggle_target_hud",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN,
-                KEY_CATEGORY));
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN,
+                BETTER_AIM_CATEGORY));
 
         toggleHighlightKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.better-aim.toggle_highlight",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN,
-                KEY_CATEGORY));
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN,
+                BETTER_AIM_CATEGORY));
 
         toggleHitboxKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.better-aim.toggle_hitbox",
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_UNKNOWN,
-                KEY_CATEGORY));
+                InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN,
+                BETTER_AIM_CATEGORY));
 
-        // ── 3. Tick events ─────────────────────────────────────────────────
+        // ── Tick events ────────────────────────────────────────────────────
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            // Keybind handling
             while (openConfigKey.wasPressed()) {
                 if (client.currentScreen == null) {
                     client.setScreen(new BetterAimScreen(null));
@@ -119,25 +105,20 @@ public class BetterAimClient implements ClientModInitializer {
                 ConfigManager.save();
             }
 
-            // Target detection (cached per-tick, not per-frame)
             TargetDetector.tick(client);
-
-            // Hit feedback countdown
             HitFeedbackManager.tick();
         });
 
-        // ── 4. HUD rendering ───────────────────────────────────────────────
-        // Fires every frame while in-game, after all vanilla HUD elements.
+        // ── HUD rendering ──────────────────────────────────────────────────
         HudRenderCallback.EVENT.register((drawContext, tickCounter) -> {
             MinecraftClient client = MinecraftClient.getInstance();
-            // Skip if a screen is open (avoids drawing crosshair over GUIs)
             if (client.currentScreen != null) return;
             CrosshairRenderer.renderHud(drawContext, tickCounter);
             TargetHudRenderer.render(drawContext, tickCounter);
         });
 
-        // ── 5. World rendering ─────────────────────────────────────────────
-        WorldRenderEvents.AFTER_ENTITIES.register(context -> {
+        // ── World rendering ────────────────────────────────────────────────
+        WorldRenderEvents.BEFORE_TRANSLUCENT.register(context -> {
             HighlightRenderer.render(context);
             HitboxRenderer.render(context);
         });

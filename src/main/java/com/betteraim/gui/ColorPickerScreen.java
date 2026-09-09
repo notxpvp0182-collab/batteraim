@@ -217,18 +217,6 @@ public class ColorPickerScreen extends Screen {
 
     // ── Input ──────────────────────────────────────────────────────────────
 
-    @Override
-    public boolean mouseClicked(double mx, double my, int button) {
-        if (button == 0) {
-            if (inSV(mx, my))    { draggingSV    = true; applySV(mx, my);    return true; }
-            if (inHue(mx, my))   { draggingHue   = true; applyHue(mx, my);   return true; }
-            if (inAlpha(mx, my)) { draggingAlpha = true; applyAlpha(mx, my); return true; }
-        }
-        return super.mouseClicked(mx, my, button);
-    }
-
-    @Override
-    public boolean mouseReleased(double mx, double my, int button) {
         draggingSV = draggingHue = draggingAlpha = false;
         return super.mouseReleased(mx, my, button);
     }

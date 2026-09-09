@@ -1,5 +1,6 @@
 {
   "category.better-aim": "Better AIM",
+  "key.category.better-aim.category": "Better AIM",
   "key.better-aim.open_config": "Open Better AIM Config",
   "key.better-aim.toggle_crosshair": "Toggle Crosshair",
   "key.better-aim.toggle_target_hud": "Toggle Target HUD",

@@ -242,7 +242,7 @@ public class BetterAimScreen extends Screen {
         rows.add(sliderInt("  Size",      () -> cfg.normalCrosshair.size,      1, 32, v -> cfg.normalCrosshair.size      = v));
         rows.add(sliderInt("  Thickness", () -> cfg.normalCrosshair.thickness, 1, 16, v -> cfg.normalCrosshair.thickness = v));
         rows.add(sliderInt("  Gap",       () -> cfg.normalCrosshair.gap,       0, 20, v -> cfg.normalCrosshair.gap       = v));
-        rows.add(sliderF("  Opacity",     () -> (double) cfg.normalCrosshair.opacity, 0.05, 1.0, 2, v -> cfg.normalCrosshair.opacity = (float) v));
+        rows.add(sliderF("  Opacity",     () -> (double) cfg.normalCrosshair.opacity, 0.05, 1.0, 2, v -> cfg.normalCrosshair.opacity = v.floatValue()));
         rows.add(colorRow("  Color",
                 () -> ColorUtil.withAlpha(cfg.normalCrosshair.color, (int)(cfg.normalCrosshair.opacity * 255)),
                 argb -> { cfg.normalCrosshair.color = argb & 0xFFFFFF; cfg.normalCrosshair.opacity = ColorUtil.af(argb); }));
@@ -256,7 +256,7 @@ public class BetterAimScreen extends Screen {
         rows.add(sliderInt("  Size",      () -> cfg.hitableCrosshair.size,      1, 32, v -> cfg.hitableCrosshair.size      = v));
         rows.add(sliderInt("  Thickness", () -> cfg.hitableCrosshair.thickness, 1, 16, v -> cfg.hitableCrosshair.thickness = v));
         rows.add(sliderInt("  Gap",       () -> cfg.hitableCrosshair.gap,       0, 20, v -> cfg.hitableCrosshair.gap       = v));
-        rows.add(sliderF("  Opacity",     () -> (double) cfg.hitableCrosshair.opacity, 0.05, 1.0, 2, v -> cfg.hitableCrosshair.opacity = (float) v));
+        rows.add(sliderF("  Opacity",     () -> (double) cfg.hitableCrosshair.opacity, 0.05, 1.0, 2, v -> cfg.hitableCrosshair.opacity = v.floatValue()));
         rows.add(colorRow("  Color",
                 () -> ColorUtil.withAlpha(cfg.hitableCrosshair.color, (int)(cfg.hitableCrosshair.opacity * 255)),
                 argb -> { cfg.hitableCrosshair.color = argb & 0xFFFFFF; cfg.hitableCrosshair.opacity = ColorUtil.af(argb); }));
@@ -274,17 +274,17 @@ public class BetterAimScreen extends Screen {
         rows.add(section("Player Highlight"));
         rows.add(toggle("  Enable", () -> cfg.playerHighlight.enabled, v -> cfg.playerHighlight.enabled = v));
         rows.add(sliderF("  Opacity", () -> (double) cfg.playerHighlight.outlineOpacity, 0.0, 1.0, 2,
-                v -> cfg.playerHighlight.outlineOpacity = (float) v));
+                v -> cfg.playerHighlight.outlineOpacity = v.floatValue()));
         rows.add(colorRow("  Outline Color",
                 () -> ColorUtil.withAlpha(cfg.playerHighlight.outlineColor, (int)(cfg.playerHighlight.outlineOpacity * 255)),
                 argb -> { cfg.playerHighlight.outlineColor = argb & 0xFFFFFF; cfg.playerHighlight.outlineOpacity = ColorUtil.af(argb); }));
         rows.add(sliderF("  Outline Width", () -> (double) cfg.playerHighlight.outlineWidth, 0.5, 8.0, 1,
-                v -> cfg.playerHighlight.outlineWidth = (float) v));
+                v -> cfg.playerHighlight.outlineWidth = v.floatValue()));
 
         rows.add(section("Mob Highlight"));
         rows.add(toggle("  Enable", () -> cfg.mobHighlight.enabled, v -> cfg.mobHighlight.enabled = v));
         rows.add(sliderF("  Opacity", () -> (double) cfg.mobHighlight.outlineOpacity, 0.0, 1.0, 2,
-                v -> cfg.mobHighlight.outlineOpacity = (float) v));
+                v -> cfg.mobHighlight.outlineOpacity = v.floatValue()));
         rows.add(colorRow("  Outline Color",
                 () -> ColorUtil.withAlpha(cfg.mobHighlight.outlineColor, (int)(cfg.mobHighlight.outlineOpacity * 255)),
                 argb -> { cfg.mobHighlight.outlineColor = argb & 0xFFFFFF; cfg.mobHighlight.outlineOpacity = ColorUtil.af(argb); }));
@@ -312,7 +312,7 @@ public class BetterAimScreen extends Screen {
                 () -> ColorUtil.withAlpha(cfg.hitbox.color, (int)(cfg.hitbox.opacity * 255)),
                 argb -> { cfg.hitbox.color = argb & 0xFFFFFF; cfg.hitbox.opacity = ColorUtil.af(argb); }));
         rows.add(sliderF("  Line Width", () -> (double) cfg.hitbox.lineWidth, 0.5, 8.0, 1,
-                v -> cfg.hitbox.lineWidth = (float) v));
+                v -> cfg.hitbox.lineWidth = v.floatValue()));
         rows.add(toggle("  Fill", () -> cfg.hitbox.fill, v -> cfg.hitbox.fill = v));
         rows.add(colorRow("  Fill Color",
                 () -> ColorUtil.withAlpha(cfg.hitbox.fillColor, (int)(cfg.hitbox.fillOpacity * 255)),
@@ -328,7 +328,7 @@ public class BetterAimScreen extends Screen {
         rows.add(toggle("  Show Name",  () -> cfg.targetHud.showName,    v -> cfg.targetHud.showName = v));
         rows.add(toggle("  3D Preview", () -> cfg.targetHud.showPreview, v -> cfg.targetHud.showPreview = v));
         rows.add(sliderF("  Scale", () -> (double) cfg.targetHud.scale, 0.5, 2.5, 1,
-                v -> cfg.targetHud.scale = (float) v));
+                v -> cfg.targetHud.scale = v.floatValue()));
 
         rows.add(section("Background"));
         rows.add(toggle("  Show Background", () -> cfg.targetHud.background, v -> cfg.targetHud.background = v));
