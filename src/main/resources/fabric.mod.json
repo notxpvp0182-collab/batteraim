@@ -8,7 +8,7 @@
     "Ahmad"
   ],
   "contact": {
-    "issues": "https://github.com/ahmad/better-aim/issues"
+    "issues": "https://github.com/notxpvp0182-collab/batteraim/issues"
   },
   "license": "MIT",
   "environment": "client",
@@ -27,7 +27,7 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=0.18.0",
+    "fabricloader": "*",
     "fabric-api": "*",
     "minecraft": "~1.21.11",
     "java": ">=21"
